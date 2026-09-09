@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OVA Perfumería</title>
+
+<!--
+=====================================================================
+  OVA PERFUMERÍA — CATÁLOGO ONLINE
+=====================================================================
+  Este archivo es TODO el catálogo (HTML + CSS + JavaScript en un
+  solo archivo). Está pensado para subirlo tal cual a Netlify.
+
+  Para editar cosas fácilmente, buscá los bloques marcados con:
+      ██████████ EDITAR ACÁ ██████████
+  Todos están explicados paso a paso en español, pensado para
+  alguien que nunca tocó código.
+=====================================================================
+-->
+
+<!-- Fuentes: una elegante para el título (serif clásica) y otra
+     prolija para el texto (sans-serif liviana). Se cargan desde
+     Google Fonts, no hace falta instalar nada. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Fondo con líneas doradas curvas, muy tenues -->
+<svg class="fondo-lineas" viewBox="0 0 1600 1200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M -100 150 C 300 50, 700 300, 1700 100" stroke="#d4af6a" stroke-width="2" fill="none"/>
+  <path d="M -100 500 C 400 650, 900 350, 1700 550" stroke="#d4af6a" stroke-width="1.5" fill="none"/>
+  <path d="M -100 900 C 500 750, 1000 1050, 1700 850" stroke="#d4af6a" stroke-width="2" fill="none"/>
+  <path d="M -100 1150 C 300 1250, 900 1000, 1700 1200" stroke="#d4af6a" stroke-width="1" fill="none"/>
+</svg>
+
+<div class="contenido">
+
+/* =====================================================================
+HTML -- EVENTOS
+===================================================================== */
+<div class="evento-confeti" id="eventoConfeti"></div>
+<div class="evento-overlay" id="eventoOverlay">
+  <div class="evento-box">
+    <button class="evento-close" onclick="cerrarEvento()" aria-label="Cerrar">&times;</button>
+    <img id="eventoImg" class="evento-img" src="" alt="">
+    <h2 id="eventoTitulo"></h2>
+    <p id="eventoMensaje"></p>
+<div class="evento-botones" id="eventoBotones">
+  <button type="button" class="contact-link" onclick="cerrarEvento()" id="eventoBtnContinuar">Continuar</button>
+  <a href="#" class="contact-link" id="eventoBtnPromo" style="display:none;">Ver promociones</a>
+</div>
+  </div>
+</div>
+tipoEfecto: "formas",   // "formas" (cuadraditos/círculos de colores) o "emoji"
+coloresConfeti: ["#B8935A", "#C97B84", "#F7E9E6", "#3B2A2E"], // solo se usa si tipoEfecto es "formas"
+/* =====================================================================
+FIN
+===================================================================== */
+
+  <header>
+    <div class="logo-contenedor">
+      <img src="logo.jpeg" alt="OVA Perfumes">
+    </div>
+    <div>
+      <div class="titulo-marca">OVA Perfumería</div>
+      <div class="subtitulo-marca">Extractos · Diseñador · Tester</div>
+    </div>
+  </header>
+
+  <div class="barra-filtros">
+    <input type="text" id="buscador" class="buscador" placeholder="Buscar por marca o línea...">
+    <select id="select-categoria" class="select-categoria">
+      <option value="todos">Todos</option>
+      <option value="nuevos">Nuevos ingresos</option>
+      <option value="Extractos">Extractos</option>
+      <option value="Diseñador">Diseñador</option>
+      <option value="Tester">Tester</option>
+    </select>
+  </div>
+
+  <div class="grilla-productos" id="grilla-productos">
+    <div class="mensaje-carga">Cargando perfumes...</div>
+  </div>
+
+  <footer>
+    <div class="footer-marca">OVA Perfumería</div>
+    <!-- ██████████ EDITAR ACÁ: CIUDAD Y PROVINCIA ██████████ -->
+    <div class="footer-ciudad" id="footer-ciudad">Ciudad, Provincia</div>
+
+    <div class="footer-datos" id="footer-datos">
+      <!-- Estos links se arman automáticamente desde la configuración
+           de arriba del <script> (CONFIG_CONTACTO). No hace falta
+           tocar nada acá. -->
+    </div>
+
+    <div class="footer-legal">© <span id="anio-actual"></span> OVA Perfumería</div>
+  </footer>
+
+</div>
+
+<!-- MODAL: ficha ampliada del perfume -->
+<div class="modal-fondo" id="modal-fondo">
+  <div class="modal-caja">
+    <button class="modal-cerrar" id="modal-cerrar" aria-label="Cerrar">&times;</button>
+
+    <div class="modal-galeria">
+      <img class="modal-imagen-principal" id="modal-imagen-principal" src="" alt="">
+      <div class="miniaturas-galeria" id="miniaturas-galeria"></div>
+    </div>
+
+    <div class="modal-datos">
+      <div class="modal-marca" id="modal-marca"></div>
+      <div class="modal-linea" id="modal-linea"></div>
+      <div class="modal-categoria-chip" id="modal-categoria"></div>
+      <div class="modal-descripcion" id="modal-descripcion"></div>
+
+      <div class="modal-precios">
+        <div class="precio-item">
+          <div class="precio-label">Contado</div>
+          <div class="precio-valor" id="modal-precio-contado">-</div>
+        </div>
+        <div class="precio-item">
+          <div class="precio-label">Tarjeta</div>
+          <div class="precio-valor" id="modal-precio-tarjeta">-</div>
+          <div class="precio-cuotas" id="modal-cuotas"></div>
+        </div>
+      </div>
+
+      <a href="#" target="_blank" class="boton-whatsapp" id="modal-boton-whatsapp">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.82 2.42a8.2 8.2 0 0 1 2.42 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.55 3.7-8.24 8.25-8.24m-4.53 4.7c-.17 0-.44.06-.67.32-.23.25-.87.86-.87 2.09 0 1.22.9 2.4 1.02 2.57.12.17 1.75 2.67 4.25 3.73.6.26 1.06.41 1.42.53.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.2-.58.2-1.07.14-1.18-.06-.1-.23-.16-.48-.28-.25-.13-1.47-.72-1.7-.8-.22-.08-.4-.13-.56.13-.17.25-.64.8-.79.97-.14.17-.29.19-.54.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.22-1.45-1.37-1.7-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.12-.14.16-.25.24-.4.08-.17.04-.32-.02-.44-.06-.13-.56-1.36-.78-1.86-.2-.48-.4-.42-.56-.43z"/></svg>
+        Consultar por WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
